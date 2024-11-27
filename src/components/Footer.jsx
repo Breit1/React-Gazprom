@@ -1,8 +1,12 @@
+import { Card } from '@consta/uikit/Card';
+import { Text } from '@consta/uikit/TextDeprecated';
 
 const Footer = () => {
     return (
         <>
-            Футер
+            <Card>
+                <Text>Footeer</Text>
+            </Card>
         </>
     )
 }
