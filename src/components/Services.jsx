@@ -4,9 +4,7 @@ import { Text } from '@consta/uikit/TextDeprecated';
 const Services = () => {
     return (
         <>
-            <Card>
                 <Text>Services</Text>
-            </Card>
         </>
     )
 }
