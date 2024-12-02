@@ -7,7 +7,7 @@ const HomeLayout = () => {
     return (
         <div>
             <Header></Header>
-            <Card shadow={false} style={{height:'80vh', border: 'solid 2px #f1f1f1'}}>
+            <Card shadow={false} style={{border: 'solid 2px #f1f1f1'}}>
                 <Outlet />
             </Card>
             <Footer></Footer>

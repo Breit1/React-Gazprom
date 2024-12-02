@@ -3,6 +3,7 @@ import { presetGpnDefault, Theme } from '@consta/uikit/Theme';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import routes from '@/router.jsx';
 
+
 function App() {
     return (
         <Theme preset={presetGpnDefault}>

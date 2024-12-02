@@ -51,7 +51,7 @@ const Header = () => {
                 isOpen={isTooltipVisible}
                 direction="downCenter"
                 spareDirection="downStartLeft"
-                possibleDirections={['upCenter', 'downStartLeft']} // Пример значений
+                possibleDirections={['upCenter', 'downStartLeft']}
                 size="l"
                 anchorRef={anchorRef}
                 color='white'

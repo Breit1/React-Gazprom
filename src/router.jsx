@@ -4,6 +4,7 @@ import Services from "@/components/Services.jsx";
 import AuthorithationLayot from "@/pages/AuthorithationLayot.jsx";
 import Register from "@/components/Register.jsx";
 import Login from "@/components/Login.jsx";
+import ServiceDetails from "@/pages/ServiceDetails.jsx";
 
 const routes = [
     {
@@ -11,30 +12,34 @@ const routes = [
         element: <HomeLayout />,
         children: [
             {
-                path: '/home',
+                path: 'home', // Без слэша в начале
                 element: <Home />,
             },
             {
-                path: '/services',
+                path: 'services',
                 element: <Services />,
             },
         ],
     },
     {
-        path: '/auth',
-        element: <AuthorithationLayot/>,
+        path: '/services/:id',
+        element: <ServiceDetails />,
+    },
+    {
+        path: 'auth',
+        element: <AuthorithationLayot />,
         children: [
             {
-                path: '/auth/register',
-                element: <Register/>,
+                path: 'register',
+                element: <Register />,
             },
             {
-                path: '/auth/login',
-                element: <Login/>,
+                path: 'login',
+                element: <Login />,
             },
-
-        ]
+        ],
     }
 ];
+
 
 export default routes;
