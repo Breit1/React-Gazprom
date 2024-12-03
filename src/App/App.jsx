@@ -10,7 +10,6 @@ function App() {
             <Router>
                 <Routes>
                     {routes.map((route, index) => (
-                        // Для вложенных маршрутов нужно использовать spread operator
                         <Route key={index} path={route.path} element={route.element}>
                             {route.children &&
                                 route.children.map((child, childIndex) => (

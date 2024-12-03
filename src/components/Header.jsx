@@ -1,66 +1,81 @@
-import React, { useRef } from 'react';
-import { Button } from '@consta/uikit/Button';
-import { Tooltip } from '@consta/uikit/Tooltip';
-import { Text } from '@consta/uikit/Text';
-import { useFlag } from '@consta/uikit/useFlag';
-import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
-import { Tabs } from '@consta/uikit/Tabs';
-import { User } from '@consta/uikit/User';
-import { Modal } from '@consta/uikit/Modal';
+import React, { useRef, useState, useEffect } from "react";
+import { Button } from "@consta/uikit/Button";
+import { Tooltip } from "@consta/uikit/Tooltip";
+import { Tabs } from "@consta/uikit/Tabs";
+import { User } from "@consta/uikit/User";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, fetchUserData } from "@/store/auth";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const tabs = [
-    { label: 'Главная', path: 'home' },
-    { label: 'Услуги', path: 'services' },
+    { label: "Главная", path: "/home" },
+    { label: "Услуги", path: "/services" },
 ];
 
 const Header = () => {
-    const anchorRef = useRef(null); // Убрана типизация <HTMLButtonElement>
-    const [isTooltipVisible, setIsTooltipVisible] = useFlag();
-
+    const anchorRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
+    const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+
+    const { user, accessToken } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (accessToken && !user) {
+            dispatch(fetchUserData());
+        }
+    }, [accessToken, user, dispatch]);
 
     const activeTab = tabs.find((tab) => location.pathname.includes(tab.path)) || tabs[0];
+
+    const handleLogout = () => {
+        dispatch(logout());
+        setIsTooltipVisible(false);
+        navigate("/auth/login");
+    };
 
     return (
         <header
             style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '10px 20px',
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "10px 20px",
             }}
         >
+            <div>{(new Date().getFullYear())}</div>
             <Tabs
-                style={{width: '70%'}}
+                style={{width: "70%"}}
                 items={tabs}
                 value={activeTab}
                 onChange={(tab) => navigate(tab.path)}
             />
             <div className="tooltip-position">
-            <User
-                withArrow={true}
-                size="l"
-                name="Роберт Пласт"
-                info="Пользователь"
-                onClick={setIsTooltipVisible.toggle}
-                ref={anchorRef}
-            />
+                <User
+                    withArrow
+                    size="l"
+                    name={user?.username || "Гость"}
+                    info={user ? "Пользователь" : "Не авторизован"}
+                    onClick={() => setIsTooltipVisible(!isTooltipVisible)}
+                    ref={anchorRef}
+                />
+                <Tooltip
+                    isOpen={isTooltipVisible}
+                    direction="downCenter"
+                    size="l"
+                    anchorRef={anchorRef}
+                    color="white"
+                >
+                    {user ? (
+                        <Button label="Выход" onClick={handleLogout}/>
+                    ) : (
+                        <Link to="/auth/login">
+                            <Button label="Вход"/>
+                        </Link>
+                    )}
+                </Tooltip>
             </div>
-            <Tooltip
-                isOpen={isTooltipVisible}
-                direction="downCenter"
-                spareDirection="downStartLeft"
-                possibleDirections={['upCenter', 'downStartLeft']}
-                size="l"
-                anchorRef={anchorRef}
-                color='white'
-            
-
-            >
-                <Link to={'/auth/register'}><Button label='Вход'></Button></Link>
-
-            </Tooltip>
         </header>
     );
 };

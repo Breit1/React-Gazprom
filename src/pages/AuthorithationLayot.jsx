@@ -5,9 +5,9 @@ import { Outlet} from 'react-router-dom';
 const AuthorithationLayot = () => {
     return (
         <div className="authorithationBlock">
-            <form className="form">
+            <div className="form">
                 <Outlet/>
-            </form>
+            </div>
         </div>
     );
 };
